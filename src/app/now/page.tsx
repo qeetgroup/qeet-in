@@ -73,6 +73,10 @@ export default function NowPage() {
           </FadeRise>
           <FadeRise delay={0.5} className="mt-10 md:mt-12">
             <p className="font-sans text-caption font-medium uppercase tracking-[0.14em] text-ink-subtle">
+              <span
+                aria-hidden="true"
+                className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-brand align-middle"
+              />
               <time dateTime={lastUpdated}>Updated {formatDate(lastUpdated)}</time>
               <span aria-hidden="true"> · </span>
               <span>{place}</span>
