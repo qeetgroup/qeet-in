@@ -15,8 +15,12 @@
 
 @theme {
   /*
-   * A strictly monochrome palette. Surfaces, ink, and rules only — no brand
-   * accent. Emphasis comes from typography, scale, and whitespace, not color.
+   * A mostly-monochrome palette. Surfaces, ink, and rules carry the layout;
+   * emphasis comes from typography, scale, and whitespace first. Brand
+   * orange is the single accent — lifted from the Qeet logo — and is used
+   * sparingly for interactive moments (hover, focus, active states) and
+   * nowhere else. If you find yourself reaching for it for decoration,
+   * pause.
    */
 
   /* Surfaces */
@@ -33,6 +37,12 @@
   /* Borders & rules */
   --color-rule: #e5e5e5;
   --color-rule-strong: #c8c8c8;
+
+  /* Brand accent — the only colour outside the monochrome stack. Lifted
+   * from the Qeet logo. Restraint is the brief: hover / focus / active
+   * only. Stays the same value in dark mode (the logo does too). */
+  --color-brand: #f26d0e;
+  --color-brand-deep: #d85301;
 
   /* Functional (form state only — used sparingly) */
   --color-success: #2f6b3e;
@@ -96,9 +106,17 @@
     font-feature-settings: "ss01", "cv11";
   }
 
+  /*
+   * Selection: invert ink and canvas. We use --color-canvas (not
+   * --color-ink-inverse) because canvas flips with ink in dark mode,
+   * guaranteeing contrast in both themes. --color-ink-inverse stays
+   * light in dark mode so that inverse-tone sections (ClosingCTA) keep
+   * light text on a dark surface — fine for that, but it would make
+   * selected text invisible (white on white) in dark mode.
+   */
   ::selection {
     background: var(--color-ink);
-    color: var(--color-ink-inverse);
+    color: var(--color-canvas);
   }
 
   :focus-visible {
