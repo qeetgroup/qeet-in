@@ -52,6 +52,19 @@ const STATIC_PAGES: ReadonlyArray<Omit<SearchEntry, "haystack">> = [
     description: "Brand assets and press contact.",
     url: "/press",
   },
+  {
+    type: "page",
+    title: "FAQ",
+    description:
+      "Frequently asked questions — what we back, how we work, whether we take outside capital.",
+    url: "/faq",
+  },
+  {
+    type: "page",
+    title: "Now",
+    description: "What Qeet Group is focused on right now.",
+    url: "/now",
+  },
 ];
 
 export async function buildSearchIndex(): Promise<SearchEntry[]> {

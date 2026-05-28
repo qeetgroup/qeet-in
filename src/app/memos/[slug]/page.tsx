@@ -7,6 +7,8 @@ import { Link } from "@/components/ui/Link";
 import { FadeRise } from "@/components/motion/FadeRise";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
 import { listMemos, loadMemo } from "@/lib/content";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleSchema, breadcrumbSchema } from "@/lib/structured-data";
 
 export const dynamicParams = false;
 
@@ -53,6 +55,22 @@ export default async function MemoPage({
 
   return (
     <>
+      <JsonLd
+        data={[
+          articleSchema({
+            slug,
+            title: data.title,
+            dek: data.dek,
+            date: data.date,
+            author: data.author,
+            section: "memos",
+          }),
+          breadcrumbSchema([
+            { name: "Memos", path: "/memos" },
+            { name: data.title.replace(/\.$/, ""), path: `/memos/${slug}` },
+          ]),
+        ]}
+      />
       <section className="pb-12 pt-20 md:pb-16 md:pt-28 lg:pt-32">
         <Container>
           <FadeRise>

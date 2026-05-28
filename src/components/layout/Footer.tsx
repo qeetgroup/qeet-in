@@ -13,6 +13,7 @@ const columns: FooterColumn[] = [
     items: [
       { href: "/about", label: "About" },
       { href: "/team", label: "Team" },
+      { href: "/now", label: "Now" },
       { href: "/companies", label: "Companies" },
       { href: "/newsroom", label: "Newsroom" },
       { href: "/memos", label: "Memos" },
@@ -26,6 +27,7 @@ const columns: FooterColumn[] = [
   {
     heading: "Contact",
     items: [
+      { href: "/faq", label: "FAQ" },
       { href: "mailto:partnerships@qeet.in", label: "Partnerships" },
       { href: "/press", label: "Press kit" },
       { href: "mailto:support@qeet.in", label: "General" },

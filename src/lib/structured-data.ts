@@ -58,8 +58,11 @@ export function articleSchema(args: {
   dek: string;
   date: string;
   author?: string;
+  /** Path under SITE_ORIGIN where the article lives, e.g. /newsroom, /memos. */
+  section?: "newsroom" | "memos";
 }): WithContext<Record<string, unknown>> {
-  const url = `${SITE_ORIGIN}/newsroom/${args.slug}`;
+  const section = args.section ?? "newsroom";
+  const url = `${SITE_ORIGIN}/${section}/${args.slug}`;
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -98,6 +101,21 @@ export function companiesListSchema(
       url: `${SITE_ORIGIN}/companies/${c.slug}`,
       name: c.name,
       description: c.description,
+    })),
+  } as const;
+}
+
+export function faqPageSchema(faqs: Array<{ question: string; answer: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: f.answer,
+      },
     })),
   } as const;
 }

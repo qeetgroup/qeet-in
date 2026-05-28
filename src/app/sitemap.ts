@@ -16,6 +16,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/careers", changeFreq: "monthly" },
     { path: "/contact", changeFreq: "yearly" },
     { path: "/press", changeFreq: "monthly" },
+    { path: "/faq", changeFreq: "monthly" },
+    { path: "/now", changeFreq: "weekly" },
     { path: "/search", changeFreq: "yearly" },
     { path: "/legal/privacy", changeFreq: "yearly" },
     { path: "/legal/terms", changeFreq: "yearly" },
