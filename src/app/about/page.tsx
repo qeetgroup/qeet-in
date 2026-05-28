@@ -144,7 +144,7 @@ export default function AboutPage() {
               write to{" "}
               <a
                 href="mailto:careers@qeet.in"
-                className="text-ink underline decoration-current/30 decoration-[1px] underline-offset-[5px] transition-[text-decoration-color] hover:decoration-current"
+                className="text-ink underline decoration-current/30 decoration-[1px] underline-offset-[5px] transition-[text-decoration-color] hover:decoration-brand"
               >
                 careers@qeet.in
               </a>

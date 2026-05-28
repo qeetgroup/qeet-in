@@ -117,7 +117,7 @@ export default function PressPage() {
                   <a
                     href={a.href}
                     download
-                    className="font-sans text-body-s text-ink underline decoration-current/30 decoration-1 underline-offset-[5px] transition-[text-decoration-color] hover:decoration-current"
+                    className="font-sans text-body-s text-ink underline decoration-current/30 decoration-1 underline-offset-[5px] transition-[text-decoration-color] hover:decoration-brand"
                   >
                     Download
                   </a>

@@ -12,7 +12,7 @@ import { isExternalHref } from "@/lib/utils";
 function MdxLink({ href = "#", children, ...props }: ComponentPropsWithoutRef<"a">) {
   const isExternal = isExternalHref(href);
   const cls =
-    "text-ink underline underline-offset-[5px] decoration-[1px] decoration-current/30 transition-[text-decoration-color] hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded-sm";
+    "text-ink underline underline-offset-[5px] decoration-[1px] decoration-current/30 transition-[text-decoration-color] hover:decoration-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas rounded-sm";
   if (isExternal) {
     return (
       <a

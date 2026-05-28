@@ -75,7 +75,7 @@ export function Nav() {
                     href={l.href}
                     className={cn(
                       "text-[0.9375rem] tracking-tight transition-colors duration-200",
-                      active ? "text-ink" : "text-ink-muted hover:text-brand",
+                      active ? "text-ink" : "text-ink-muted hover:text-ink",
                     )}
                   >
                     {l.label}
@@ -145,7 +145,7 @@ export function Nav() {
                   onClick={closeMenu}
                   className={cn(
                     "border-b border-rule py-5 font-serif text-[1.875rem] leading-tight transition-colors duration-200 md:text-[2.25rem]",
-                    active ? "text-ink" : "text-ink-muted hover:text-brand",
+                    active ? "text-ink" : "text-ink-muted hover:text-ink",
                   )}
                 >
                   {l.label}
