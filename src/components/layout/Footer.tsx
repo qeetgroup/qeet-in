@@ -26,6 +26,8 @@ const columns: FooterColumn[] = [
     items: [
       { href: "/companies/qeetid", label: "Qeet ID" },
       { href: "/companies/qeetrix", label: "Qeetrix" },
+      { href: "/companies/qeet-logs", label: "Qeet Logs" },
+      { href: "/companies/qeet-people", label: "Qeet People" },
     ],
   },
   {
