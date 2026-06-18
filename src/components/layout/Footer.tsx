@@ -72,7 +72,7 @@ export function Footer() {
             <NextLink
               href="/"
               aria-label="Qeet Group home"
-              className="font-serif text-[2.25rem] leading-none text-ink transition-colors duration-200 hover:text-brand"
+              className="font-sans text-[1.625rem] font-semibold leading-none tracking-[-0.03em] text-ink transition-colors duration-200 hover:text-brand"
             >
               Qeet Group
             </NextLink>
@@ -98,16 +98,6 @@ export function Footer() {
             ))}
           </div>
         </FadeRise>
-
-        {/* Oversized signature wordmark — decorative, clipped to the container. */}
-        <div
-          aria-hidden="true"
-          className="group/mark overflow-hidden border-t border-rule pt-8"
-        >
-          <span className="block whitespace-nowrap font-serif leading-[0.82] tracking-tight text-ink/5 text-[16vw] transition-colors duration-500 group-hover/mark:text-brand/15">
-            Qeet Group
-          </span>
-        </div>
 
         <div className="flex flex-col gap-4 border-t border-rule py-6 md:flex-row md:items-center md:justify-between">
           <Eyebrow>Follow</Eyebrow>
