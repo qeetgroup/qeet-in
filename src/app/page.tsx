@@ -1,11 +1,15 @@
 import { Hero } from "@/components/sections/Hero";
-import { PlatformStrip } from "@/components/sections/PlatformStrip";
 import { ProductsBento } from "@/components/sections/ProductsBento";
-import { Platform } from "@/components/sections/Platform";
+import { IndiaFirst } from "@/components/sections/IndiaFirst";
+import { HowWeBuild } from "@/components/sections/HowWeBuild";
+import { Structure } from "@/components/sections/Structure";
 import { Philosophy } from "@/components/sections/Philosophy";
 import { VisionMission } from "@/components/sections/VisionMission";
+import { OurStory } from "@/components/sections/OurStory";
 import { ProofMetrics } from "@/components/sections/ProofMetrics";
-import { EditorialQuote } from "@/components/sections/EditorialQuote";
+import { FoundersNote } from "@/components/sections/FoundersNote";
+import { Team } from "@/components/sections/Team";
+import { HomeFaq } from "@/components/sections/HomeFaq";
 import { NewsroomPreview } from "@/components/sections/NewsroomPreview";
 import { ClosingCTA } from "@/components/sections/ClosingCTA";
 
@@ -13,13 +17,17 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <PlatformStrip />
-      <ProductsBento />
-      <Platform />
       <Philosophy />
+      <ProductsBento />
+      <IndiaFirst />
       <VisionMission />
+      <HowWeBuild />
+      <Structure />
+      <OurStory />
       <ProofMetrics />
-      <EditorialQuote />
+      <FoundersNote />
+      <Team />
+      <HomeFaq />
       <NewsroomPreview />
       <ClosingCTA />
     </>
