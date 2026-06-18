@@ -37,7 +37,7 @@ export function Hero() {
           </FadeRise>
           <FadeRise delay={1.1} className="mt-9 md:mt-11">
             <p className="font-sans text-body-s text-ink-subtle">
-              Six products · one identity platform · India-first
+              One identity platform · India-first · Built for the long term
             </p>
           </FadeRise>
         </div>
