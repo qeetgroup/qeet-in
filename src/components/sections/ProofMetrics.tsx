@@ -2,6 +2,7 @@ import { Section } from "../layout/Section";
 import { SectionHeader } from "../ui/SectionHeader";
 import { FadeRise } from "../motion/FadeRise";
 import { Counter } from "../motion/Counter";
+import { listProducts } from "@/lib/content";
 
 type Metric = {
   value?: number;
@@ -10,18 +11,20 @@ type Metric = {
   context: string;
 };
 
-const metrics: Metric[] = [
-  { value: 6, label: "Products", context: "identity, data, people, and money" },
-  { value: 1, label: "Identity graph", context: "every product, one secure login" },
-  { value: 4, label: "Principles", context: "question · explore · envision · transform" },
-  { display: "2026", label: "Founded", context: "built for the long term" },
-];
+export async function ProofMetrics() {
+  const products = await listProducts();
 
-export function ProofMetrics() {
+  const metrics: Metric[] = [
+    { value: products.length, label: "Products", context: "identity, data, people, and money" },
+    { value: 1, label: "Identity graph", context: "every product, one secure login" },
+    { value: 4, label: "Principles", context: "question · explore · envision · transform" },
+    { display: "2026", label: "Founded", context: "built for the long term" },
+  ];
+
   return (
     <Section className="border-t border-rule" padding="tight">
       <FadeRise>
-        <SectionHeader index="05" eyebrow="By the numbers" />
+        <SectionHeader index="06" eyebrow="By the numbers" />
       </FadeRise>
 
       <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-12 md:mt-14 lg:grid-cols-4">

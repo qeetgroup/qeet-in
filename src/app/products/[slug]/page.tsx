@@ -11,6 +11,7 @@ import { TrackedExternalLink } from "@/components/ui/TrackedExternalLink";
 import { PageAmbient } from "@/components/ui/PageAmbient";
 import { FadeRise } from "@/components/motion/FadeRise";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
+import { PRODUCT_UI } from "@/components/product-ui/registry";
 import { listProducts, loadProduct } from "@/lib/content";
 
 export const dynamicParams = false;
@@ -48,6 +49,7 @@ export default async function ProductPage({
 
   const { data, content } = product;
   const externalLabel = data.externalUrl.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+  const Mock = PRODUCT_UI[slug];
 
   return (
     <>
@@ -72,6 +74,25 @@ export default async function ProductPage({
           </FadeRise>
         </Container>
       </section>
+
+      {/* Product preview */}
+      {Mock && (
+        <section className="pb-4 md:pb-8">
+          <Container>
+            <FadeRise>
+              <div className="relative overflow-hidden rounded-3xl border border-rule bg-canvas/40 p-8 md:p-16">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-rule)_1px,transparent_1px)] bg-size-[18px_18px] opacity-50"
+                />
+                <div className="relative mx-auto max-w-[26rem]">
+                  <Mock />
+                </div>
+              </div>
+            </FadeRise>
+          </Container>
+        </section>
+      )}
 
       {/* Meta strip */}
       <section className="border-t border-rule py-10 md:py-14">
