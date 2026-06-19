@@ -5,44 +5,33 @@ import { NewsletterForm } from "../forms/NewsletterForm";
 import { SocialIcons } from "../ui/SocialIcons";
 import { FadeRise } from "../motion/FadeRise";
 import { isExternalHref } from "@/lib/utils";
+import type { ProductSummary } from "@/lib/content";
 
 type FooterLink = { href: string; label: string };
 type FooterColumn = { heading: string; items: FooterLink[] };
 
-const columns: FooterColumn[] = [
-  {
-    heading: "Group",
-    items: [
-      { href: "/about", label: "About" },
-      { href: "/team", label: "Team" },
-      { href: "/now", label: "Now" },
-      { href: "/products", label: "Products" },
-      { href: "/newsroom", label: "Newsroom" },
-      { href: "/memos", label: "Memos" },
-      { href: "/careers", label: "Careers" },
-    ],
-  },
-  {
-    heading: "Products",
-    items: [
-      { href: "/products/qeet-id", label: "Qeet ID" },
-      { href: "/products/qeetrix", label: "Qeetrix" },
-      { href: "/products/qeet-logs", label: "Qeet Logs" },
-      { href: "/products/qeet-people", label: "Qeet People" },
-      { href: "/products/qeet-notify", label: "Qeet Notify" },
-      { href: "/products/qeet-pay", label: "Qeet Pay" },
-    ],
-  },
-  {
-    heading: "Contact",
-    items: [
-      { href: "/faq", label: "FAQ" },
-      { href: "mailto:partnerships@qeet.in", label: "Partnerships" },
-      { href: "/press", label: "Press kit" },
-      { href: "mailto:support@qeet.in", label: "General" },
-    ],
-  },
-];
+const groupColumn: FooterColumn = {
+  heading: "Group",
+  items: [
+    { href: "/about", label: "About" },
+    { href: "/team", label: "Team" },
+    { href: "/now", label: "Now" },
+    { href: "/products", label: "Products" },
+    { href: "/newsroom", label: "Newsroom" },
+    { href: "/memos", label: "Memos" },
+    { href: "/careers", label: "Careers" },
+  ],
+};
+
+const contactColumn: FooterColumn = {
+  heading: "Contact",
+  items: [
+    { href: "/faq", label: "FAQ" },
+    { href: "mailto:partnerships@qeet.in", label: "Partnerships" },
+    { href: "/press", label: "Press kit" },
+    { href: "mailto:support@qeet.in", label: "General" },
+  ],
+};
 
 function FooterLinkRow({ href, label }: FooterLink) {
   const isExternal = isExternalHref(href);
@@ -62,8 +51,14 @@ function FooterLinkRow({ href, label }: FooterLink) {
   );
 }
 
-export function Footer() {
+export function Footer({ products }: { products: ProductSummary[] }) {
   const year = new Date().getFullYear();
+  // Products column is derived from the live portfolio, so it scales with it.
+  const columns: FooterColumn[] = [
+    groupColumn,
+    { heading: "Products", items: products.map((p) => ({ href: p.href, label: p.name })) },
+    contactColumn,
+  ];
   return (
     <footer className="relative border-t border-rule bg-canvas">
       <Container>
@@ -72,8 +67,12 @@ export function Footer() {
             <NextLink
               href="/"
               aria-label="Qeet Group home"
-              className="font-sans text-[1.625rem] font-semibold leading-none tracking-[-0.03em] text-ink transition-colors duration-200 hover:text-brand"
+              className="group inline-flex items-center gap-2.5 font-display text-[1.625rem] font-semibold leading-none tracking-[-0.03em] text-ink transition-colors duration-200 hover:text-brand"
             >
+              <span
+                aria-hidden="true"
+                className="h-2.5 w-2.5 rounded-full bg-brand transition-transform duration-300 group-hover:scale-125"
+              />
               Qeet Group
             </NextLink>
             <p className="mt-5 max-w-sm text-body-s text-ink-muted">

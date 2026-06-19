@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import localFont from "next/font/local";
+import { Fraunces, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { Nav } from "@/components/layout/Nav";
@@ -7,19 +8,54 @@ import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
 import { CommandPaletteShell } from "@/components/sections/CommandPaletteShell";
+import { listProductSummaries } from "@/lib/content";
 
-const serif = Instrument_Serif({
+/*
+ * Type system:
+ *   • Display / headings → Fraunces (expressive variable serif — editorial-premium)
+ *   • Body               → Cal Sans Text (self-hosted; same body face as the Qeet products)
+ *   • UI / controls      → Cal Sans UI (the UI-optimised cut)
+ *   • Mono               → Geist Mono (technical detail)
+ * Serif display + the products' body face: premium headlines, consistent body.
+ * Each role resolves to its own CSS variable (see globals.css @theme inline), so
+ * swapping any face is a one-line change here.
+ */
+const display = Fraunces({
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
-  variable: "--font-serif",
+  variable: "--font-display",
   display: "swap",
+  fallback: ["ui-serif", "Georgia", "serif"],
 });
 
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
+const body = localFont({
+  variable: "--font-body",
   display: "swap",
+  preload: true,
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+  src: [
+    { path: "./fonts/CalSansText-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/CalSansText-Medium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/CalSansText-SemiBold.woff2", weight: "600", style: "normal" },
+  ],
+});
+
+const ui = localFont({
+  variable: "--font-ui",
+  display: "swap",
+  preload: false,
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+  src: [
+    { path: "./fonts/CalSansUI-UIRegular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/CalSansUI-UIMedium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/CalSansUI-UISemiBold.woff2", weight: "600", style: "normal" },
+  ],
+});
+
+const mono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -78,14 +114,21 @@ export const viewport: Viewport = {
  */
 const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t===null&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+  // Single source of truth for the chrome's product links — scales with the
+  // portfolio (add an MDX product and it appears in the nav + footer).
+  const products = await listProductSummaries();
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} h-full`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${ui.variable} ${mono.variable} h-full`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
@@ -97,11 +140,11 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <Nav />
+        <Nav products={products} />
         <main id="main" className="flex-1">
           {children}
         </main>
-        <Footer />
+        <Footer products={products} />
         <CommandPaletteShell />
         {plausibleDomain && (
           <Script

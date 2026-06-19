@@ -2,40 +2,85 @@ import { Container } from "../layout/Container";
 import { Eyebrow } from "../ui/Eyebrow";
 import { Link } from "../ui/Link";
 import { Button } from "../ui/Button";
+import { IdentityGraph } from "../ui/IdentityGraph";
 import { FadeRise } from "../motion/FadeRise";
 import { WordReveal } from "../motion/WordReveal";
 import { Magnetic } from "../motion/Magnetic";
+import { listProductSummaries } from "@/lib/content";
 
-export function Hero() {
+/**
+ * The thesis. A confident two-column opening: the group's defining statement on
+ * the left, the identity-graph signature as a real figure on the right. The
+ * graph and the count are derived from the live product list, so the hero scales
+ * as the portfolio grows. A monospace thesis line carries the hard facts; orange
+ * appears only at the graph's core.
+ */
+export async function Hero() {
+  const products = await listProductSummaries();
+  const nodes = products.map((p) => ({ label: p.short }));
   return (
-    <section className="relative flex min-h-[88svh] items-center pb-24 pt-12 md:pb-32 md:pt-20">
-      <Container>
-        <div className="max-w-[68rem]">
-          <FadeRise>
-            <Eyebrow className="mb-10 md:mb-14">Qeet Group · Est. 2026</Eyebrow>
-          </FadeRise>
-          <h1 className="text-balance font-serif font-normal tracking-[-0.015em] text-ink text-[2.875rem] leading-[1.05] sm:text-[4rem] sm:leading-[1.04] md:text-[5.25rem] md:leading-[1.03] lg:text-[6.5rem] lg:leading-[1.02]">
-            <WordReveal text="We question, we explore, we envision, we transform." />
-          </h1>
-          <FadeRise delay={0.7} className="mt-10 max-w-xl md:mt-12">
-            <p className="text-body-l text-ink-muted">
-              Qeet Group is a multi-company holding built on a single philosophy: that meaningful
-              progress begins with the right question.
-            </p>
-          </FadeRise>
-          <FadeRise delay={0.95} className="mt-10 md:mt-14">
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
-              <Button href="/products" size="lg" magnetic>
-                Explore products
-              </Button>
-              <Magnetic strength={0.4}>
-                <Link href="#philosophy" variant="arrow" className="text-body text-ink">
-                  Read our philosophy
-                </Link>
-              </Magnetic>
-            </div>
-          </FadeRise>
+    <section className="relative flex min-h-[92svh] items-center overflow-hidden pb-20 pt-28 md:pb-28 md:pt-32">
+      {/* Faint grain only — the graph itself is the hero's visual, no blob mesh. */}
+      <div aria-hidden="true" className="bg-grain pointer-events-none absolute inset-0 -z-10" />
 
+      <Container>
+        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-7">
+            <FadeRise>
+              <Eyebrow className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-1 md:mb-10">
+                <span>Qeet Group</span>
+                <span aria-hidden="true" className="text-rule-strong">/</span>
+                <span className="font-mono normal-case tracking-normal text-ink-subtle">
+                  Holding company · Est. 2026
+                </span>
+              </Eyebrow>
+            </FadeRise>
+
+            <h1 className="text-balance font-display font-semibold tracking-[-0.03em] text-ink text-[2.75rem] leading-[1.03] sm:text-[3.5rem] md:text-[4.25rem] md:leading-[1.02] lg:text-[4.75rem]">
+              <WordReveal text="We question, we explore, we envision, we transform." />
+            </h1>
+
+            <FadeRise delay={0.7} className="mt-8 max-w-xl md:mt-10">
+              <p className="text-body-l text-ink-muted">
+                Qeet Group is a multi-company holding built on a single philosophy: that meaningful
+                progress begins with the right question.
+              </p>
+            </FadeRise>
+
+            <FadeRise delay={0.9} className="mt-9 md:mt-11">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
+                <Button href="/products" size="lg" magnetic>
+                  Explore products
+                </Button>
+                <Magnetic strength={0.4}>
+                  <Link href="#philosophy" variant="arrow" className="text-body text-ink">
+                    Read our philosophy
+                  </Link>
+                </Magnetic>
+              </div>
+            </FadeRise>
+
+            <FadeRise delay={1.05} className="mt-11 md:mt-14">
+              <p className="font-mono text-caption uppercase tracking-[0.18em] text-ink-subtle">
+                <span className="text-ink">{products.length}</span> platforms
+                <span aria-hidden="true" className="px-2 text-rule-strong">·</span>
+                <span className="text-ink">1</span> identity graph
+                <span aria-hidden="true" className="px-2 text-rule-strong">·</span>
+                built for the long term
+              </p>
+            </FadeRise>
+          </div>
+
+          {/* Signature figure. Decorative=false → it's a real, labelled diagram,
+              one node per live product. */}
+          <FadeRise delay={0.3} className="lg:col-span-5">
+            <IdentityGraph
+              nodes={nodes}
+              labels
+              decorative={false}
+              className="mx-auto max-w-sm sm:max-w-md lg:max-w-none"
+            />
+          </FadeRise>
         </div>
       </Container>
     </section>
