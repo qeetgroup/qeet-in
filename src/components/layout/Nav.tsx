@@ -10,17 +10,16 @@ import { Magnetic } from "@/components/motion/Magnetic";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { cn } from "@/lib/utils";
 import { EASE_OUT } from "@/lib/motion";
+import type { ProductSummary } from "@/lib/content";
 
 const navLinks = [
   { href: "/about", label: "About" },
-  { href: "/products", label: "Products" },
   { href: "/newsroom", label: "Newsroom" },
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
-  { href: "/search", label: "Search", mobileOnly: true },
 ];
 
-export function Nav() {
+export function Nav({ products }: { products: ProductSummary[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -50,6 +49,10 @@ export function Nav() {
 
   const closeMenu = useCallback(() => setOpen(false), []);
   const isElevated = scrolled || open;
+  const productsActive = pathname === "/products" || pathname.startsWith("/products/");
+
+  const linkBase =
+    "relative py-1 font-ui text-[0.9375rem] tracking-tight transition-colors duration-200";
 
   return (
     <>
@@ -67,47 +70,108 @@ export function Nav() {
             <NextLink
               href="/"
               aria-label="Qeet Group home"
-              className="font-serif text-[1.5rem] leading-none tracking-tight text-ink sm:text-[1.625rem] lg:text-[1.75rem]"
+              className="group flex items-center gap-2.5 font-display text-[1.4rem] font-semibold leading-none tracking-[-0.03em] text-ink sm:text-[1.5rem] lg:text-[1.625rem]"
             >
+              {/* Identity-core dot — a small echo of the graph signature. */}
+              <span
+                aria-hidden="true"
+                className="h-2.5 w-2.5 rounded-full bg-brand transition-transform duration-300 group-hover:scale-125"
+              />
               Qeet Group
             </NextLink>
           </Magnetic>
 
           <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
-            {navLinks
-              .filter((l) => !l.mobileOnly)
-              .map((l) => {
-                const active = pathname === l.href || pathname.startsWith(l.href + "/");
-                return (
-                  <NextLink
-                    key={l.href}
-                    href={l.href}
-                    className={cn(
-                      "relative py-1 text-[0.9375rem] tracking-tight transition-colors duration-200",
-                      active ? "text-ink" : "text-ink-muted hover:text-ink",
-                    )}
-                  >
-                    {l.label}
-                    {active &&
-                      (reduce ? (
-                        <span className="absolute inset-x-0 -bottom-0.5 h-px bg-brand" />
-                      ) : (
-                        <motion.span
-                          layoutId="nav-underline"
-                          className="absolute inset-x-0 -bottom-0.5 h-px bg-brand"
-                          transition={{ type: "spring", stiffness: 350, damping: 30 }}
+            {/* Products mega-panel: opens on hover and on keyboard focus-within. */}
+            <div className="group relative">
+              <NextLink
+                href="/products"
+                className={cn(linkBase, "flex items-center gap-1.5", productsActive ? "text-ink" : "text-ink-muted hover:text-ink")}
+                aria-haspopup="true"
+              >
+                Products
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  aria-hidden="true"
+                  className="mt-0.5 text-ink-subtle transition-transform duration-300 group-hover:rotate-180"
+                >
+                  <path d="m3 4.5 3 3 3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {productsActive && <span className="absolute inset-x-0 -bottom-0.5 h-px bg-brand" />}
+              </NextLink>
+
+              {/* pt bridge keeps hover alive across the gap to the panel */}
+              <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 opacity-0 transition-[opacity,transform] duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 motion-safe:translate-y-1 motion-safe:group-hover:translate-y-0 motion-safe:group-focus-within:translate-y-0">
+                <div className="glass-panel w-136 rounded-2xl p-3 backdrop-blur-xl">
+                  <div className="grid max-h-[70vh] grid-cols-2 gap-1 overflow-y-auto">
+                    {products.map((p) => (
+                      <NextLink
+                        key={p.href}
+                        href={p.href}
+                        className="group/item flex items-start gap-3 rounded-xl p-3 transition-colors duration-200 hover:bg-brand-faint focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                      >
+                        <span
+                          className={cn(
+                            "mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full transition-colors duration-200 group-hover/item:bg-brand",
+                            p.live ? "bg-brand" : "bg-rule-strong",
+                          )}
                         />
-                      ))}
+                        <span className="min-w-0">
+                          <span className="block font-ui text-[0.9375rem] font-medium text-ink">{p.name}</span>
+                          <span className="mt-0.5 block truncate text-caption text-ink-subtle">{p.sector}</span>
+                        </span>
+                        <span
+                          className={cn(
+                            "ml-auto shrink-0 font-mono text-[0.6875rem] uppercase tracking-widest",
+                            p.live ? "text-brand" : "text-ink-subtle",
+                          )}
+                        >
+                          {p.statusLabel}
+                        </span>
+                      </NextLink>
+                    ))}
+                  </div>
+                  <NextLink
+                    href="/products"
+                    className="mt-1 flex items-center justify-between rounded-xl border-t border-rule px-3 pb-1 pt-3 text-body-s text-ink transition-colors duration-200 hover:text-brand"
+                  >
+                    Explore all platforms
+                    <span aria-hidden="true">→</span>
                   </NextLink>
-                );
-              })}
+                </div>
+              </div>
+            </div>
+
+            {navLinks.map((l) => {
+              const active = pathname === l.href || pathname.startsWith(l.href + "/");
+              return (
+                <NextLink
+                  key={l.href}
+                  href={l.href}
+                  className={cn(linkBase, active ? "text-ink" : "text-ink-muted hover:text-ink")}
+                >
+                  {l.label}
+                  {active &&
+                    (reduce ? (
+                      <span className="absolute inset-x-0 -bottom-0.5 h-px bg-brand" />
+                    ) : (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute inset-x-0 -bottom-0.5 h-px bg-brand"
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      />
+                    ))}
+                </NextLink>
+              );
+            })}
             <NextLink
               href="/search"
               aria-label="Search (⌘K)"
               title="Search (⌘K)"
               onClick={(e) => {
-                // Cmd/Ctrl/Shift-click → let the browser navigate (new tab, etc.).
-                // Plain click → open the command palette instead.
                 if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
                 e.preventDefault();
                 window.dispatchEvent(new Event(COMMAND_PALETTE_OPEN_EVENT));
@@ -168,7 +232,7 @@ export function Nav() {
             className="fixed inset-x-0 top-16 bottom-0 z-30 overflow-y-auto bg-canvas/95 backdrop-blur-xl lg:hidden"
           >
             <nav aria-label="Mobile" className="mx-auto flex w-full max-w-7xl flex-col px-6 pt-4 pb-12 md:px-10">
-              {navLinks.map((l, i) => {
+              {[{ href: "/products", label: "Products" }, ...navLinks, { href: "/search", label: "Search" }].map((l, i) => {
                 const active = pathname === l.href || pathname.startsWith(l.href + "/");
                 return (
                   <motion.div
@@ -181,7 +245,7 @@ export function Nav() {
                       href={l.href}
                       onClick={closeMenu}
                       className={cn(
-                        "block border-b border-rule py-5 font-serif text-[1.875rem] leading-tight transition-colors duration-200 md:text-[2.25rem]",
+                        "block border-b border-rule py-5 font-display font-medium text-[1.875rem] leading-tight tracking-[-0.02em] transition-colors duration-200 md:text-[2.25rem]",
                         active ? "text-ink" : "text-ink-muted hover:text-ink",
                       )}
                     >

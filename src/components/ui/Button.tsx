@@ -39,7 +39,7 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 export function Button(props: ButtonProps) {
   const { variant = "solid", size = "md", className, magnetic = false, children } = props;
   const cls = cn(
-    "inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight",
+    "inline-flex items-center justify-center gap-2 rounded-full font-ui font-medium tracking-tight",
     "transition-[transform,box-shadow,background-color,border-color] duration-200",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
     variantMap[variant],

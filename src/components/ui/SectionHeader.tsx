@@ -45,7 +45,7 @@ export function SectionHeader({
         {eyebrow}
       </Eyebrow>
       {title && (
-        <h2 className="text-balance font-serif font-normal tracking-[-0.015em] text-ink text-[2rem] leading-[1.1] md:text-[2.75rem] lg:text-[3.25rem] lg:leading-[1.08]">
+        <h2 className="text-balance font-display font-semibold tracking-tight text-ink text-[2rem] leading-[1.07] md:text-[2.6rem] lg:text-[3.1rem] lg:leading-[1.05]">
           {title}
         </h2>
       )}

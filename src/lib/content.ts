@@ -126,6 +126,42 @@ export async function listProducts(): Promise<LoadedProduct[]> {
   });
 }
 
+/**
+ * Compact, serializable product list — the single source of truth for chrome
+ * (nav mega-panel, footer) and the identity graph. Derived from the MDX files,
+ * so the portfolio scales automatically: drop in a new product and it appears
+ * everywhere, with no hardcoded count or list to maintain.
+ */
+export type ProductSummary = {
+  slug: string;
+  name: string;
+  /** Short node/badge label, e.g. "Qeet ID" → "ID", "Qeetrix" stays "Qeetrix". */
+  short: string;
+  sector: string;
+  href: string;
+  statusLabel: string;
+  live: boolean;
+};
+
+const STATUS_LABEL: Record<string, string> = {
+  "Generally available": "Live",
+  "Early access": "Early access",
+  "Coming soon": "Coming soon",
+};
+
+export async function listProductSummaries(): Promise<ProductSummary[]> {
+  const products = await listProducts();
+  return products.map(({ slug, data }) => ({
+    slug,
+    name: data.name,
+    short: data.name.replace(/^Qeet\s+/i, ""),
+    sector: data.sector,
+    href: `/products/${slug}`,
+    statusLabel: STATUS_LABEL[data.stage] ?? data.stage,
+    live: data.stage === "Generally available",
+  }));
+}
+
 export async function loadPost(slug: string): Promise<LoadedPost | null> {
   const item = await readMdx<PostFrontmatter>("newsroom", slug);
   if (!item) return null;

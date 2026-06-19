@@ -73,9 +73,9 @@ export async function ProductsBento() {
       <FadeRise>
         <SectionHeader
           index="01"
-          eyebrow="Our Products"
+          eyebrow="The portfolio"
           title="One philosophy. Many products."
-          description="Every product runs on one identity graph — each built for what it is, sharing a philosophy, a design system, and a quality bar."
+          description="Each platform is built for what it is — and every one of them runs on the same identity graph, design system, and quality bar."
         />
       </FadeRise>
 
@@ -93,13 +93,13 @@ export async function ProductsBento() {
                 <StatusPill stage={p.data.stage} />
               </div>
 
-              <h3 className="mt-6 font-serif font-normal tracking-[-0.015em] text-ink text-[1.625rem] leading-none">
+              <h3 className="mt-6 font-display font-semibold tracking-tight text-ink text-[1.625rem] leading-[1.05]">
                 {p.data.name}
               </h3>
               <p className="mt-3 flex-1 text-body-s text-ink-muted">{p.data.tagline}</p>
 
               <div className="mt-6 flex items-center justify-between border-t border-rule pt-4">
-                <span className="font-sans text-caption font-medium uppercase tracking-[0.14em] text-ink-subtle">
+                <span className="font-mono text-caption uppercase tracking-[0.12em] text-ink-subtle">
                   {p.data.sector}
                 </span>
                 <span

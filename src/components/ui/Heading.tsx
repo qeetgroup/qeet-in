@@ -10,7 +10,13 @@ export type HeadingSize =
   | "heading-m"
   | "heading-s";
 
-type Variant = "serif" | "sans";
+/**
+ * `display` is the confident headline face (Cal Sans Display) — the default for
+ * the Confident-Enterprise look. `sans` is the body face for softer headings.
+ * `serif` is a retained alias → display, so call sites from the previous
+ * serif-led design keep rendering correctly while they migrate.
+ */
+type Variant = "display" | "sans" | "serif";
 
 /**
  * Responsive size map. Desktop sizes match the brief's type scale; smaller
@@ -32,8 +38,10 @@ const sizeMap: Record<HeadingSize, string> = {
 };
 
 const variantMap: Record<Variant, string> = {
-  serif: "font-serif font-normal tracking-[-0.01em]",
+  display: "font-display font-semibold tracking-tight",
   sans: "font-sans font-medium tracking-[-0.02em]",
+  // Legacy: previous serif headlines now render in the display face.
+  serif: "font-display font-medium tracking-[-0.02em]",
 };
 
 type HeadingProps = {
@@ -47,7 +55,7 @@ type HeadingProps = {
 
 export function Heading({
   level = 2,
-  variant = "sans",
+  variant = "display",
   size = "heading-l",
   className,
   children,

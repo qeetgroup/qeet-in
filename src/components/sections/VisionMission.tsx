@@ -5,7 +5,7 @@ import { Parallax } from "../motion/Parallax";
 import { Spotlight } from "../motion/Spotlight";
 
 const statementClass =
-  "mt-8 font-serif font-normal text-balance tracking-[-0.01em] text-ink text-[1.75rem] leading-[1.14] sm:text-[2rem] md:mt-10 md:text-[2.5rem] md:leading-[1.16] lg:text-[2.75rem] xl:text-[3rem] lg:leading-[1.18]";
+  "mt-8 font-serif font-normal text-balance tracking-[-0.01em] text-ink text-[1.75rem] leading-[1.14] sm:text-[2rem] md:mt-10 md:text-[2.5rem] md:leading-[1.16] lg:text-[2.75rem] xl:text-[2rem] lg:leading-[1.18]";
 
 export function VisionMission() {
   return (

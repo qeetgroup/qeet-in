@@ -7,10 +7,20 @@
  */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Map next/font CSS variables into Tailwind's theme so `font-serif` / `font-sans` resolve to the loaded faces. */
+/*
+ * Type system. Display + headings use Fraunces (var(--font-display)); body uses
+ * Cal Sans Text (var(--font-body)); UI/controls use Cal Sans UI (var(--font-ui));
+ * mono is Geist Mono. All faces are loaded in app/layout.tsx — swapping any is a
+ * one-line change there. `--font-serif` is a legacy alias → display so any
+ * remaining `font-serif` call sites render in the display (serif) face.
+ */
 @theme inline {
-  --font-serif: var(--font-serif);
-  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-ui: var(--font-ui);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-display);
 }
 
 @theme {
@@ -158,7 +168,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "ss01", "cv11";
   }
 
   /*
@@ -249,17 +258,17 @@
     background-image:
       radial-gradient(
         40rem 40rem at 12% -10%,
-        color-mix(in oklab, var(--color-brand) 16%, transparent),
+        color-mix(in oklab, var(--color-brand) 9%, transparent),
         transparent 60%
       ),
       radial-gradient(
         34rem 34rem at 96% 6%,
-        color-mix(in oklab, var(--color-ink) 7%, transparent),
+        color-mix(in oklab, var(--color-ink) 6%, transparent),
         transparent 55%
       ),
       radial-gradient(
         48rem 30rem at 50% 118%,
-        color-mix(in oklab, var(--color-brand-deep) 12%, transparent),
+        color-mix(in oklab, var(--color-brand-deep) 6%, transparent),
         transparent 60%
       );
   }
@@ -267,19 +276,31 @@
     background-image:
       radial-gradient(
         40rem 40rem at 12% -10%,
-        color-mix(in oklab, var(--color-brand) 24%, transparent),
+        color-mix(in oklab, var(--color-brand) 15%, transparent),
         transparent 60%
       ),
       radial-gradient(
         34rem 34rem at 96% 6%,
-        color-mix(in oklab, var(--color-ink) 10%, transparent),
+        color-mix(in oklab, var(--color-ink) 9%, transparent),
         transparent 55%
       ),
       radial-gradient(
         48rem 30rem at 50% 118%,
-        color-mix(in oklab, var(--color-brand-deep) 18%, transparent),
+        color-mix(in oklab, var(--color-brand-deep) 10%, transparent),
         transparent 60%
       );
+  }
+
+  /*
+   * Architectural hairline grid — the Confident-Enterprise structural motif.
+   * Quiet, regular, and aligned to the layout (vs. the soft organic mesh). Pair
+   * with a radial mask so it fades into the canvas instead of tiling edge-to-edge.
+   */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--color-rule) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-rule) 1px, transparent 1px);
+    background-size: 64px 64px;
   }
 
   /* Fine film grain (SVG fractal noise data-URI). Sits above the mesh at very
